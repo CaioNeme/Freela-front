@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react'
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { UserDataContext } from "../context/UserDataContext";
+import logo from "../assets/Ícone-Ferramentas-PNG-removebg-preview.png"
 
 export default function Header() {
 
@@ -12,7 +13,7 @@ export default function Header() {
       <Shadow />
       <Head>
         <Link to={"/"}>
-          <p>Logo Pika</p>
+          <img src={logo} alt="" />
         </Link>
         {token == null ?
           <div>
@@ -103,6 +104,6 @@ const Head = styled.div`
     }
   }
   img{
-
+    height:55px;
   }
 `

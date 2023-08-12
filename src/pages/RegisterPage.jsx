@@ -24,8 +24,8 @@ export default function Register() {
     const newRegister = { ...register };
     newRegister[event.target.name] = event.target.value;
     setRegister(newRegister);
-
   }
+  console.log(register)
 
   return (
     <Size>
@@ -33,7 +33,7 @@ export default function Register() {
       <Form onSubmit={event => {
         event.preventDefault();
         setLoading(true);
-        if (password !== confirmPassword) {
+        if (register.password !== register.confirmPassword) {
           alert("As senhas são diferentes");
           return
         }
@@ -42,7 +42,7 @@ export default function Register() {
         const promise = axios.post(URLPostRegister, post);
         promise.then(() => {
           setLoading(false);
-          navigate("/")
+          navigate("/login")
         });
         promise.catch(erro => {
           setLoading(false);

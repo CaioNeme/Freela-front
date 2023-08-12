@@ -4,6 +4,7 @@ import { UserDataContext } from "../context/UserDataContext";
 import styled from "styled-components";
 import axios from "axios";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Users() {
@@ -12,6 +13,7 @@ export default function Users() {
   const [services, setServices] = useState([])
   const [contracts, setContracts] = useState([])
   const [refresh, setRefresh] = useState(0)
+  const navigate = useNavigate();
 
   const config = {
     headers: {
@@ -20,6 +22,10 @@ export default function Users() {
   }
 
   useEffect(() => {
+    if (!token) {
+      navigate("/")
+    }
+
     const services = axios.get("http://localhost:5000/users", config)
     services.then(services => {
       setServices(services.data.services);
@@ -48,7 +54,11 @@ export default function Users() {
             <li key={contract.id}>
               <div>
                 <h2>Começou: {dayjs(contract.startDate).format("DD/MM/YYYY")}</h2>
-                <h2>Terminou: {dayjs(contract.endDate).format("DD/MM/YYYY")}</h2>
+                {contract.endDate === null ?
+                  <h2>Termino: O contrato não foi finalizado </h2>
+                  :
+                  <h2>Termino : {dayjs(contract.endDate).format("DD/MM/YYYY")}</h2>}
+
               </div>
               <div>
                 <h1>{(contract.serviceName)}</h1>
@@ -57,7 +67,7 @@ export default function Users() {
               <div>
                 <button onClick={() => {
                   const obj = {
-                    status: "Feito"
+                    status: "Feito",
                   }
                   const promisse = axios.put(`http://localhost:5000/contract/${contract.id}`, obj, config)
                   promisse.then(() => {

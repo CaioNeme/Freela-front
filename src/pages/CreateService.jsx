@@ -212,7 +212,7 @@ const Form = styled.form`
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-    font-size: 20.976px;
+    font-size: 21px;
     line-height: 26px;
     text-align: center;
 
