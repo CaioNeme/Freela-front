@@ -6,6 +6,7 @@ import Users from "./pages/UsersPage";
 import { UserDataProvider } from "./context/UserDataContext";
 import ServicePage from "./pages/ServicePage";
 import CreateService from "./pages/CreateService";
+import UpdateServicePage from "./pages/UpdateServicePage";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/me" element={<Users />} />
           <Route path="/service/:id" element={<ServicePage />} />
           <Route path="/createservice" element={<CreateService />} />
+          {/* <Route path="/updateservice/:id" element={<UpdateServicePage />} /> */}
         </Routes>
       </BrowserRouter>
     </UserDataProvider>

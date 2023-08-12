@@ -3,12 +3,16 @@ import Header from "../components/Header";
 import { UserDataContext } from "../context/UserDataContext";
 import styled from "styled-components";
 import axios from "axios";
+import dayjs from "dayjs";
 
 
 export default function Users() {
 
   const { token } = useContext(UserDataContext)
   const [services, setServices] = useState([])
+  const [contracts, setContracts] = useState([])
+  const [refresh, setRefresh] = useState(0)
+
   const config = {
     headers: {
       "Authorization": `Bearer ${token}`
@@ -20,7 +24,12 @@ export default function Users() {
     services.then(services => {
       setServices(services.data.services);
     })
-  }, [])
+    const contracts = axios.get("http://localhost:5000/contract", config)
+    contracts.then(contract => {
+      setContracts(contract.data.contracts);
+    })
+  }, [refresh])
+
 
   return (
     <>
@@ -35,11 +44,48 @@ export default function Users() {
       </Head>
       <Body>
         <div>
-          <p>teste</p>
+          {contracts.map(contract =>
+            <li key={contract.id}>
+              <div>
+                <h2>Começou: {dayjs(contract.startDate).format("DD/MM/YYYY")}</h2>
+                <h2>Terminou: {dayjs(contract.endDate).format("DD/MM/YYYY")}</h2>
+              </div>
+              <div>
+                <h1>{(contract.serviceName)}</h1>
+                <h5>{contract.status}</h5>
+              </div>
+              <div>
+                <button onClick={() => {
+                  const obj = {
+                    status: "Feito"
+                  }
+                  const promisse = axios.put(`http://localhost:5000/contract/${contract.id}`, obj, config)
+                  promisse.then(() => {
+                    setRefresh(refresh + 1)
+                  })
+                  promisse.catch(erro => {
+                    alert(erro.response.data.message);
+                  })
+                }}>Finalizar</button>
+                <button onClick={() => {
+                  const obj = {
+                    status: "Cancelado"
+                  }
+                  const promisse = axios.put(`http://localhost:5000/contract/${contract.id}`, obj, config)
+                  promisse.then(() => {
+                    setRefresh(refresh + 1)
+                  })
+                  promisse.catch(erro => {
+                    alert(erro.response.data.message);
+                  })
+                }}>Cancelar</button>
+              </div>
+            </li>
+          )}
         </div>
         <div>
           {services.map(service =>
-            <li>
+            <li key={service.id}>
               <div>
                 <h1>{service.title}</h1>
                 <h2>{service.subTitle}</h2>
@@ -49,7 +95,33 @@ export default function Users() {
                 <h5>{service.status === "true" ? <p>Disponivel</p> : <p>Indisponivel</p>}</h5>
               </div>
               <div>
-                <button>Editar</button>
+                {service.status === "true" ?
+                  <button onClick={() => {
+                    const obj = {
+                      status: false
+                    }
+                    const promisse = axios.put(`http://localhost:5000/service/${service.id}`, obj, config)
+                    promisse.then(() => {
+                      setRefresh(refresh + 1)
+                    })
+                    promisse.catch(erro => {
+                      alert(erro.response.data.message);
+                    })
+                  }}>Desativar</button>
+                  :
+                  <button onClick={() => {
+                    const obj = {
+                      status: true
+                    }
+                    const promisse = axios.put(`http://localhost:5000/service/${service.id}`, obj, config)
+                    promisse.then(() => {
+                      setRefresh(refresh + 1)
+                    })
+                    promisse.catch(erro => {
+                      alert(erro.response.data.message);
+                    })
+                  }}>Ativar</button>
+                }
               </div>
             </li>
           )}
@@ -66,10 +138,11 @@ const Head = styled.div`
   font-size: 20px;
   line-height: 25px;
   display:flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
   div{
-    width:50%;
+    margin-top:10px;
+    width:35%;
     border:solid 2px #000;
     text-align:center;
   }
@@ -109,7 +182,7 @@ const Body = styled.ul`
 
       cursor: pointer;
 
-      width: 75px;
+      width: 90px;
       height: 45px;
 
       margin:15px;
@@ -131,7 +204,8 @@ const Body = styled.ul`
   div{
     width:50%;
     div{
-      width:auto;
+      width:200px;
+      margin:10px;
     }
   }
 `;

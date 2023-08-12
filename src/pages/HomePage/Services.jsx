@@ -20,25 +20,36 @@ export default function Services() {
       <Ul>
         {service.map(obj =>
           <>
-            <li onClick={() => {
-              navigate(`/service/${obj.id}`)
-            }} key={obj.id}>
-              <div>
+            {obj.status === "true" ?
+              <li onClick={() => {
+                navigate(`/service/${obj.id}`)
+              }} key={obj.id}>
                 <div>
-                  <h1>{obj.title}</h1>
-                  <h2>{obj.subTitle}</h2>
+                  <div>
+                    <h1>{obj.title}</h1>
+                    <h2>{obj.subTitle}</h2>
+                  </div>
+                  <div>
+                    <h4>R$ {(obj.price / 100).toString().replace(".", ",")}</h4>
+                    <h5>{obj.status === "true" ? <p>Disponivel</p> : <p>Indisponivel</p>}</h5>
+                  </div>
                 </div>
+                <img src={obj.mainImage} />
+              </li>
+              :
+              <li onClick={() => alert("Esse serviço esta indisponivel")} key={obj.id}>
                 <div>
-                  <h3>{obj.description}</h3>
+                  <div>
+                    <h1>{obj.title}</h1>
+                    <h2>{obj.subTitle}</h2>
+                  </div>
+                  <div>
+                    <h4>R$ {(obj.price / 100).toString().replace(".", ",")}</h4>
+                    <h5>{obj.status === "true" ? <p>Disponivel</p> : <p>Indisponivel</p>}</h5>
+                  </div>
                 </div>
-                <div>
-                  <h4>R$ {(obj.price / 100).toString().replace(".", ",")}</h4>
-                  <h5>{obj.status === "true" ? <p>Disponivel</p> : <p>Indisponivel</p>}</h5>
-                </div>
-              </div>
-              <img src={obj.mainImage} />
-            </li>
-
+                <img src={obj.mainImage} />
+              </li>}
           </>
         )}
       </Ul>
@@ -53,32 +64,36 @@ const Ul = styled.ul`
   font-family:'Roboto';
   font-size:17px;
   box-sizing:border-box;
+  position:absolute;
 
-  div{
-    margin:5px;
-    box-sizing:border-box;
-
-  }
   img{
     width:100px;
     height:100px;
     border-radius:15px;
     box-sizing:border-box;
-    display:flex;
+    position:relative;
+    top:0px;
+    left:30px;
   }
   li{
+    cursor:pointer;
     border:solid 2px black;
     box-shadow: 9px 4px 12px -5px rgba(0,0,0,0.55);
 
     display:flex;
-    justify-content:space-between;
     align-items:center;
 
     width:360px;
+    height:130px;
 
     margin:5px;
+    div{
+    margin:7px;
+    width:200px;
+
+    }
     :hover{
-      border:solid 4px #000;
+      background-color:#a1a1a168;
     }
     h1{
       font-size:20px;
