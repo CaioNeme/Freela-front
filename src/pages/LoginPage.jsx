@@ -35,7 +35,7 @@ export default function Login() {
       <Header />
       <Form onSubmit={event => {
         event.preventDefault();
-        const URLPostLogin = `${process.env.VITE_API_URL}/signin`;
+        const URLPostLogin = `${import.meta.env.VITE_API_URL}/signin`;
         let post = login;
         const promise = axios.post(URLPostLogin, post);
         setLoading(true)

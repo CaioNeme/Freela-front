@@ -37,7 +37,7 @@ export default function ServicePage() {
   })
 
   useEffect(() => {
-    const service = axios.get(`${process.env.VITE_API_URL}/service/${id}`)
+    const service = axios.get(`${import.meta.env.VITE_API_URL}/service/${id}`)
     service.then(services => {
       setService(services.data);
     })
@@ -65,7 +65,7 @@ export default function ServicePage() {
             const obj = {
               startDate,
             }
-            const promise = axios.post(`${process.env.VITE_API_URL}/contract/${id}`, obj, config)
+            const promise = axios.post(`${import.meta.env.VITE_API_URL}/contract/${id}`, obj, config)
             promise.then(() => {
               alert("Contrato Criado com sucesso você pode ver mais no perfil")
             })
