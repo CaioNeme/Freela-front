@@ -26,11 +26,11 @@ export default function Users() {
       navigate("/")
     }
 
-    const services = axios.get("http://localhost:5000/users", config)
+    const services = axios.get("${process.env.VITE_API_URL}/users", config)
     services.then(services => {
       setServices(services.data.services);
     })
-    const contracts = axios.get("http://localhost:5000/contract", config)
+    const contracts = axios.get("${process.env.VITE_API_URL}/contract", config)
     contracts.then(contract => {
       setContracts(contract.data.contracts);
     })
@@ -69,7 +69,7 @@ export default function Users() {
                   const obj = {
                     status: "Feito",
                   }
-                  const promisse = axios.put(`http://localhost:5000/contract/${contract.id}`, obj, config)
+                  const promisse = axios.put(`${process.env.VITE_API_URL}/contract/${contract.id}`, obj, config)
                   promisse.then(() => {
                     setRefresh(refresh + 1)
                   })
@@ -81,7 +81,7 @@ export default function Users() {
                   const obj = {
                     status: "Cancelado"
                   }
-                  const promisse = axios.put(`http://localhost:5000/contract/${contract.id}`, obj, config)
+                  const promisse = axios.put(`${process.env.VITE_API_URL}/contract/${contract.id}`, obj, config)
                   promisse.then(() => {
                     setRefresh(refresh + 1)
                   })
@@ -110,7 +110,7 @@ export default function Users() {
                     const obj = {
                       status: false
                     }
-                    const promisse = axios.put(`http://localhost:5000/service/${service.id}`, obj, config)
+                    const promisse = axios.put(`${process.env.VITE_API_URL}/service/${service.id}`, obj, config)
                     promisse.then(() => {
                       setRefresh(refresh + 1)
                     })
@@ -123,7 +123,7 @@ export default function Users() {
                     const obj = {
                       status: true
                     }
-                    const promisse = axios.put(`http://localhost:5000/service/${service.id}`, obj, config)
+                    const promisse = axios.put(`${process.env.VITE_API_URL}/service/${service.id}`, obj, config)
                     promisse.then(() => {
                       setRefresh(refresh + 1)
                     })

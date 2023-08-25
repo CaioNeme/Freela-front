@@ -31,12 +31,12 @@ export default function CreateService() {
   const [range, setRange] = useState([])
 
   useEffect(() => {
-    const category = axios.get("http://localhost:5000/categories");
+    const category = axios.get(`${process.env.VITE_API_URL}/categories`);
     category.then(categories => {
       setCategories(categories.data)
     }).catch(err => console.log(err));
 
-    const range = axios.get("http://localhost:5000/range");
+    const range = axios.get(`${process.env.VITE_API_URL}/range`);
     range.then(range => {
       setRange(range.data)
     }).catch(err => console.log(err));
@@ -55,7 +55,7 @@ export default function CreateService() {
         event.preventDefault();
         setLoading(true);
 
-        const URLPostService = "http://localhost:5000/service"
+        const URLPostService = `${process.env.VITE_API_URL}/service`
         service.price.replace(",", ".")
         service.price = service.price * 100
         const promise = axios.post(URLPostService, service, config);

@@ -10,7 +10,7 @@ export default function Services() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/home`).then((services) => {
+    axios.get(`${process.env.VITE_API_URL}/home`).then((services) => {
       setService(services.data)
     }).catch(err => console.log(err))
   }, [])

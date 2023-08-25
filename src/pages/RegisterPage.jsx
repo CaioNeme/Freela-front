@@ -38,7 +38,7 @@ export default function Register() {
           return
         }
         let post = register;
-        const URLPostRegister = "http://localhost:5000/signup"
+        const URLPostRegister = `${process.env.VITE_API_URL}/signup`
         const promise = axios.post(URLPostRegister, post);
         promise.then(() => {
           setLoading(false);
